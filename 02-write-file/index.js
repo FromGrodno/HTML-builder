@@ -1,15 +1,22 @@
 const fs = require('fs');
 const path = require('path');
-/*
-fs.writeFile(
-    path.join(__dirname, 'note.txt'),
-    'Hello world',
-    (err) => {
-        if (err) throw err;
-        console.log('Файл был создан');
-    }
-);
-*/
-const { stdin, stdout } = process;
-//stdin.on('data', data => stdout.write(data));
-process.on('data', () => stdout.write('Удачи в изучении Node.js!'));
+const { stdout, stdin } = process;
+
+const output = fs.createWriteStream(path.join(__dirname, 'text.txt'));
+
+stdout.write('Привет, запишите в блокнот\n');
+stdin.on('data', data => {
+    fs.appendFile(
+        path.join(__dirname, 'text.txt'),
+        data,
+        err => {
+            if (err) throw err;
+
+        }
+    );
+
+});
+process.on('SIGINT', () => {
+    stdout.write('Удачи в изучении Node.js!')
+    process.exit()
+});
