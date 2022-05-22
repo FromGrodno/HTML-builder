@@ -11,6 +11,9 @@ stdin.on('data', data => {
         data,
         err => {
             if (err) throw err;
+            if (data.toString().trim() == 'exit') {
+                process.exit()
+            }
 
         }
     );
@@ -19,4 +22,7 @@ stdin.on('data', data => {
 process.on('SIGINT', () => {
     stdout.write('Удачи в изучении Node.js!')
     process.exit()
+});
+process.on('exit', () => {
+    stdout.write('Удачи в изучении Node.js!')
 });
